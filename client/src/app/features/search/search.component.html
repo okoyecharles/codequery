@@ -1,1 +1,15 @@
-<p>search works!</p>
+<div class="flex flex-col">
+  <div class="relative mx-auto w-full max-w-[1000px] mb-4">
+    <input
+      type="text"
+      placeholder="Type to search query..."
+      class="py-4 pl-[calc(16px+32px)] text-sm px-6 ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700"
+      [type]="'search'"
+    />
+    <mat-icon class="absolute top-1/2 -translate-y-1/2 left-4">search</mat-icon>
+  </div>
+
+  <div class="max-w-[1000px] mx-auto w-full">
+    Search results works
+  </div>
+</div>
