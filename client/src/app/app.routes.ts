@@ -11,16 +11,19 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    title: 'Home - CodeQuery',
     path: 'home',
     component: HomeComponent,
     pathMatch: 'full',
   },
   {
+    title: 'Search - CodeQuery',
     path: 'search',
     component: SearchComponent,
     pathMatch: 'full',
   },
   {
+    title: 'Query - CodeQuery',
     path: 'query/:id',
     component: QueryComponent,
     pathMatch: 'full',
