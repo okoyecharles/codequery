@@ -1,1 +1,28 @@
-<p>query works!</p>
+<h1 class="text-lg font-bold text-gray-700">
+  {{ query.question }}
+</h1>
+<div class="mt-1 mb-4 text-xs text-gray-500 flex flex-wrap gap-[6px] items-center">
+  <div class="w-full sm:w-auto">
+    Asked by
+  <span class="inline-block text-blue-500">{{ query.user.name }}</span> 
+  </div>
+  <span class="text-gray-300 text-lg hidden sm:inline-block">|</span>
+  <div>
+    {{ query.createdAt | date: 'medium' }}
+  </div>
+  <span class="text-gray-300 text-lg">|</span>
+  <div class="flex gap-2 items-center">
+    <mat-icon class="scale-75">question_answer</mat-icon>
+    {{ query.answers.length }} Answers
+  </div>
+</div>
+
+<h1 class="font-semibold text-base text-gray-700 border-b border-gray-300 py-1 mt-4">
+  Answers ({{ query.answers.length }})
+</h1>
+
+<div class="flex flex-col">
+  @for (answer of query.answers; track answer) {
+    <app-answer-card [answer]="answer"></app-answer-card>
+  }
+</div>

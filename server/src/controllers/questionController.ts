@@ -3,6 +3,12 @@ import { AuthorizedRequest } from "../types/request";
 import Question from "../models/Question";
 import User from "../models/User";
 
+export const getDetailedQuestion = async (id: string) => {
+  return Question.findById(id)
+    .populate({ path: 'answers', populate: { path: 'user' } })
+    .populate('user');
+};
+
 /*
   * @route GET /questions
   * @desc Get all questions
@@ -45,7 +51,7 @@ export const getQuestion = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const question = await Question.findById(id).populate(['answers', 'user']);
+    const question = await getDetailedQuestion(id);
 
     if (!question) {
       res.status(404).json({ message: 'Question not found' });
@@ -87,7 +93,7 @@ export const askQuestion = async (req: AuthorizedRequest<any>, res: Response) =>
 };
 
 /*
-  * @route PUT /questions
+  * @route PUT /questions/:id
   * @desc Update a question
   * @access Public
 */
@@ -115,7 +121,8 @@ export const updateQuestion = async (req: AuthorizedRequest<any>, res: Response)
     }
 
     if (question) questionExists.question = question;
-    const updatedQuestion = await (await questionExists.save()).populate(['user', 'answers']);
+    await questionExists.save()
+    const updatedQuestion = await getDetailedQuestion(id);
 
     res.status(200).json({ question: updatedQuestion, message: 'Question updated successfully' });
   } catch (error) {

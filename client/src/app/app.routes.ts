@@ -3,6 +3,8 @@ import { HomeComponent } from './features/home/home.component';
 import { SearchComponent } from './features/search/search.component';
 import { QueryComponent } from './features/query/query.component';
 import { ErrorComponent } from './shared/components/error/error.component';
+import { homeResolver } from './features/home/home.resolver';
+import { queryResolver } from './features/query/query.resolver';
 
 export const routes: Routes = [
   {
@@ -15,6 +17,7 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     pathMatch: 'full',
+    resolve: { data: homeResolver }
   },
   {
     title: 'Search - CodeQuery',
@@ -27,6 +30,7 @@ export const routes: Routes = [
     path: 'query/:id',
     component: QueryComponent,
     pathMatch: 'full',
+    resolve: { data: queryResolver }
   },
   {
     path: '**',

@@ -1,15 +1,26 @@
 <div class="flex flex-col">
-  <div class="relative mx-auto w-full max-w-[1000px] mb-4">
+  <div class="relative mx-auto w-full max-w-[1000px] mb-8">
     <input
       type="text"
       placeholder="Type to search query..."
       class="py-4 pl-[calc(16px+32px)] text-sm px-6 ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700"
       [type]="'search'"
+      (input)="handleInput($event)"
     />
     <mat-icon class="absolute top-1/2 -translate-y-1/2 left-4">search</mat-icon>
   </div>
 
   <div class="max-w-[1000px] mx-auto w-full">
-    Search results works
+    @if (searchedQuery$.getValue() && !searching$.getValue() &&
+    !searchResults.length) {
+    <div class="text-center text-gray-500 text-sm">No queries found</div>
+    } @if (searching$.getValue()) {
+    <div class="text-center text-gray-500 text-sm">
+      Searching...
+      <mat-spinner diameter="24" strokeWidth="3"></mat-spinner>
+    </div>
+    } @for (query of searchResults; track query) {
+    <app-query-card [query]="query"></app-query-card>
+    }
   </div>
 </div>

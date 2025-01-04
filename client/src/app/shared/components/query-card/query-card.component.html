@@ -1,0 +1,21 @@
+<a [routerLink]="['/query', query._id]" class="block">
+  <article
+    class="ring-1 ring-gray-300 bg-white px-4 py-3 rounded hover:ring-gray-400 hover:scale-[100.5%]"
+  >
+    <div class="mb-2 text-xs flex justify-between">
+      <span class="inline-block"
+      >{{ query.createdAt | date }}</span>
+      <span class="inline-block text-blue-500"
+      >{{ query.user.username }}</span>
+    </div>
+    <header class="text-gray-700 font-semibold leading-tight">
+      {{ query.question }}
+    </header>
+    <div class="flex gap-4 text-xs items-center mt-4">
+      <div class="flex gap-2 items-center">
+        <mat-icon>question_answer</mat-icon>
+        {{ query.answers.length }} Answers
+      </div>
+    </div>
+  </article>
+</a>

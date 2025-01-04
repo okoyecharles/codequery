@@ -3,6 +3,7 @@ import Question from "../models/Question";
 import Answer from "../models/Answer";
 import { AuthorizedRequest } from "../types/request";
 import User from "../models/User";
+import { getDetailedQuestion } from "./questionController";
 
 /*
   * @route GET /questions/:id/answers
@@ -19,8 +20,8 @@ export const getAnswers = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Question not found" });
       return;
     }
-    
-    const answers = await Answer.find({ question: id });
+
+    const answers = await Answer.find({ question: id }).populate("user");
 
     res.status(200).json({ answers });
   } catch (error) {
@@ -56,7 +57,7 @@ export const answerQuestion = async (req: AuthorizedRequest<any>, res: Response)
     await newAnswer.save();
     question.answers.push(newAnswer._id);
     await question.save();
-    const updatedQuestion = await question.populate(["answers", "user"]);
+    const updatedQuestion = await getDetailedQuestion(id);
 
     res.status(201).json({ question: updatedQuestion, message: "Answer added successfully" });
   } catch (error) {
@@ -93,7 +94,7 @@ export const deleteAnswer = async (req: AuthorizedRequest<any>, res: Response) =
     );
     await question.save();
     await Answer.deleteOne({ _id: answerId });
-    const updatedQuestion = await question.populate(["answers", "user"]);
+    const updatedQuestion = await getDetailedQuestion(id);
 
     res.status(200).json({ question: updatedQuestion, message: "Answer deleted successfully" });
   } catch (error) {
@@ -128,7 +129,7 @@ export const updateAnswer = async (req: AuthorizedRequest<any>, res: Response) =
 
     if (answerExists) answerExists.answer = answer;
     await answerExists.save();
-    const updatedQuestion = question.populate(["answers", "user"]);
+    const updatedQuestion = getDetailedQuestion(id);
     res.status(200).json({ question: updatedQuestion, message: "Answer updated successfully" });
   } catch (error) {
     res

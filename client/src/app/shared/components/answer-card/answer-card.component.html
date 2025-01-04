@@ -1,0 +1,14 @@
+<article
+  class="py-4 rounded hover:ring-gray-400"
+>
+  <div class="mb-2 text-xs flex justify-between">
+    <div class="flex gap-2">
+      <span class="inline-block text-gray-500 font-semibold">{{ answer.user.name }}</span>
+      <span class="inline-block text-gray-400">({{ answer.user.username }})</span>
+    </div>
+    <span class="inline-block">{{ formatDate(answer.createdAt) }}</span>
+  </div>
+  <p class="text-sm">
+    {{ answer.answer }}
+  </p>
+</article>
