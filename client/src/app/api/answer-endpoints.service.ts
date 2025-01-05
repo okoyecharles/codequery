@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { getAPIRoute } from './api.config';
+import { generateAuthHeaders, getAPIRoute } from './api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +18,20 @@ export class AnswerEndpointsService {
   // protected routes (require authentication)
 
   answerCreateAnswer(queryId: string, answer: any) {
-    return this.http.post(getAPIRoute(`questions/${queryId}/answers`), answer, { withCredentials: true });
+    return this.http.post(getAPIRoute(`questions/${queryId}/answers`), answer, {
+      headers: generateAuthHeaders(),
+    });
   }
 
   answerDeleteAnswer(queryId: string, answerId: string) {
-    return this.http.delete(getAPIRoute(`questions/${queryId}/answers/${answerId}`), { withCredentials: true });
+    return this.http.delete(getAPIRoute(`questions/${queryId}/answers/${answerId}`), {
+      headers: generateAuthHeaders(),
+    });
   }
 
   answerUpdateAnswer(queryId: string, answerId: string, answer: any) {
-    return this.http.put(getAPIRoute(`questions/${queryId}/answers/${answerId}`), answer, { withCredentials: true });
+    return this.http.put(getAPIRoute(`questions/${queryId}/answers/${answerId}`), answer, {
+      headers: generateAuthHeaders(),
+    });
   }
 }

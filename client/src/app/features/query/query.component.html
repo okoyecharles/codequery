@@ -1,14 +1,16 @@
 <h1 class="text-lg font-bold text-gray-700">
   {{ query.question }}
 </h1>
-<div class="mt-1 mb-4 text-xs text-gray-500 flex flex-wrap gap-[6px] items-center">
+<div
+  class="mt-1 mb-4 text-xs text-gray-500 flex flex-wrap gap-[6px] items-center"
+>
   <div class="w-full sm:w-auto">
     Asked by
-  <span class="inline-block text-blue-500">{{ query.user.name }}</span> 
+    <span class="inline-block text-blue-500">{{ query.user.name }}</span>
   </div>
   <span class="text-gray-300 text-lg hidden sm:inline-block">|</span>
   <div>
-    {{ query.createdAt | date: 'medium' }}
+    {{ query.createdAt | date : "medium" }}
   </div>
   <span class="text-gray-300 text-lg">|</span>
   <div class="flex gap-2 items-center">
@@ -17,12 +19,44 @@
   </div>
 </div>
 
-<h1 class="font-semibold text-base text-gray-700 border-b border-gray-300 py-1 mt-4">
+<h1
+  class="font-semibold text-base text-gray-700 border-b border-gray-300 py-1 mb-4"
+>
   Answers ({{ query.answers.length }})
 </h1>
 
+<form action="" class="flex gap-2 bg-gray-50 pb-2 sticky top-[84px]" (submit)="answerQuestion($event)">
+  <div class="relative w-full">
+    <textarea
+      [placeholder]="query.answers.length ? 'Add another answer...' : 'Be the first to answer...'"
+      class="px-3 py-2 text-sm ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700 resize-none"
+      rows="4"
+      [value]="queryAnswer$.getValue()"
+      (input)="handleInput($event)"
+    ></textarea>
+    <span
+      class="text-xs text-gray-400 absolute bottom-1 right-1"
+      [ngClass]="{
+        '!text-red-500': queryAnswer$.getValue().length > MAX_ANSWER_LENGTH
+      }"
+      >{{ queryAnswer$.getValue().length }} / {{ MAX_ANSWER_LENGTH }}</span
+    >
+  </div>
+  <button
+    class="bg-blue-500 text-gray-200 grid place-content-center place-items-center text-sm hover:bg-blue-600 w-[40px] disabled:bg-gray-300"
+    [type]="'submit'"
+    [disabled]="processing || queryAnswer$.getValue().length > MAX_ANSWER_LENGTH || queryAnswer$.getValue().trim().length < 5"
+  >
+    @if (processing) {
+    <mat-spinner diameter="16"></mat-spinner>
+    } @else {
+    <mat-icon class="text-white scale-90"> subdirectory_arrow_left </mat-icon>
+    }
+  </button>
+</form>
+
 <div class="flex flex-col">
-  @for (answer of query.answers; track answer) {
-    <app-answer-card [answer]="answer"></app-answer-card>
+  @for (answer of sortedAnswers(); track answer) {
+  <app-answer-card [answer]="answer"></app-answer-card>
   }
 </div>

@@ -1,4 +1,4 @@
-import { protect } from './../middleware/authMiddleware';
+import { optionalProtect, protect } from './../middleware/authMiddleware';
 import express from 'express';
 import { askQuestion, deleteQuestion, getQuestion, getQuestions, searchQuestions, updateQuestion } from '../controllers/questionController';
 import { answerQuestion, deleteAnswer, getAnswers, updateAnswer } from '../controllers/answerController';
@@ -15,7 +15,7 @@ router.put('/:id', protect, updateQuestion);
 
 // Answer routes
 router.get('/:id/answers', getAnswers);
-router.post('/:id/answers', protect, answerQuestion);
+router.post('/:id/answers', optionalProtect, answerQuestion);
 router.delete('/:id/answers/:answerId', protect, deleteAnswer);
 router.put('/:id/answers/:answerId', protect, updateAnswer);
 

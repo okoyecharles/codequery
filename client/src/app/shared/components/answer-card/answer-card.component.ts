@@ -19,4 +19,8 @@ export class AnswerCardComponent {
   formatDate(date: string) {
     return moment(date).fromNow();
   }
+
+  textToHtml(text: string) {
+    return text.replace(/\n/g, '<br>');
+  }
 }
