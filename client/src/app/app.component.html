@@ -10,7 +10,7 @@
 
     <nav class="ml-auto">
       <ul class="flex gap-6 items-center md:gap-4 text-sm text-gray-500">
-        <li>
+        <li class="hidden sm:block">
           <a
             routerLink="home"
             routerLinkActive="text-gray-700"
@@ -30,15 +30,30 @@
         </li>
       </ul>
     </nav>
+    @if(!auth.user) {
     <button
       class="bg-blue-500 text-white text-sm py-2 px-3 ml-6 hover:bg-blue-600"
       (click)="openAuthDialog()"
     >
       Login
     </button>
+    } @else {
+    <div class="flex items-center gap-2 ml-3 sm:ml-6">
+      <div class="flex flex-col text-gray-700">
+        <span class="text-sm">{{ auth.user.name }}</span>
+        <span class="text-xs text-gray-500">{{ auth.user.username }}</span>
+      </div>
+      <button
+        class="bg-red-500 text-white text-sm grid place-content-center h-[36px] w-[36px] rounded-full hover:bg-red-600"
+        (click)="auth.logout()"
+      >
+        <mat-icon class="scale-75">logout</mat-icon>
+      </button>
+    </div>
+    }
   </div>
 </header>
-<main class="grid place-items-center bg-gray-50 h-[calc(100vh-72px-86px)]">
+<main class="grid place-items-center bg-gray-50 min-h-[calc(100vh-72px-86px)]">
   <div class="container h-full py-6">
     <router-outlet />
   </div>

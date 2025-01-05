@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { User } from '../../api/api.types';
 import { AuthEndpointsService } from '../../api/auth-endpoints.service';
 import { BehaviorSubject } from 'rxjs';
+import Cookies from 'js-cookie';
+import { tokenName } from '../../api/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,13 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   user!: User;
   validating$ = new BehaviorSubject<boolean>(true);
+  cookieData = {
+    // in days
+    login: {
+      name: tokenName,
+      expiration: 7,
+    },
+  }
 
   constructor(
     private authService: AuthEndpointsService,
@@ -25,5 +34,11 @@ export class AuthService {
         this.validating$.next(false);
       }
     })
-  }
+  };
+
+  logout() {
+    Cookies.remove(this.cookieData.login.name);
+    this.user = null as any;
+    this.authService.authSignout();
+  };
 }

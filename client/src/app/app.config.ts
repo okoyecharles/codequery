@@ -4,7 +4,6 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
-import { min } from 'moment';
 
 export const appConfig: ApplicationConfig = {
   providers: [

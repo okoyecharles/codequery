@@ -1,6 +1,17 @@
-<h1 class="font-bold mb-4">Recently Asked</h1>
+<header class="flex justify-between items-center mb-4">
+  <h1 class="font-bold">Recently Asked</h1>
+  @if (auth.user) {
+  <button
+    class="bg-black text-gray-200 flex items-center gap-3 text-sm py-2 px-3 ml-6 hover:bg-gray-700"
+    (click)="openAskQueryDialog()"
+  >
+    <mat-icon class="text-blue-400 scale-90">question_answer</mat-icon>
+    <span>Ask Question</span>
+  </button>
+  }
+</header>
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
   @for (query of queries; track query) {
-    <app-query-card [query]="query"></app-query-card>
+  <app-query-card [query]="query"></app-query-card>
   }
 </div>

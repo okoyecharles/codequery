@@ -17,7 +17,8 @@ export const getDetailedQuestion = async (id: string) => {
 export const getQuestions = async (req: Request, res: Response) => {
   try {
     const questions = await Question.find().populate(['user']);
-    res.status(200).json({ questions });
+    const sortedQuestions = questions.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    res.status(200).json({ questions: sortedQuestions });
   } catch (error) {
     res
       .status(500)
@@ -82,9 +83,10 @@ export const askQuestion = async (req: AuthorizedRequest<any>, res: Response) =>
       return;
     }
 
-    const newQuestion = new Question({ question, answers: [], user });
-    await newQuestion.save();
-    res.status(201).json({ message: 'Question created successfully' });
+    const newQuestion = new Question({ question, answers: [], user: user._id });
+    await newQuestion.save()
+    const savedQuestion = await getDetailedQuestion(newQuestion._id.toString());
+    res.status(201).json({ message: 'Question created successfully', question: savedQuestion });
   } catch (error) {
     res
       .status(500)

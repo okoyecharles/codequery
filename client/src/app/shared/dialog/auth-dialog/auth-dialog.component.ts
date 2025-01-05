@@ -1,9 +1,10 @@
-import { login } from './../../../../../../server/src/controllers/userController';
 import { Component, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthEndpointsService } from '../../../api/auth-endpoints.service';
 import { Subject } from 'rxjs';
+import Cookies from "js-cookie";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-auth-dialog',
@@ -30,41 +31,75 @@ export class AuthDialogComponent implements OnDestroy {
 
   formActions = {
     signup: () => {
-      console.log('signup', this.formData);
       this.processing = 'Creating Account'
       this.error = null;
+      const user = {
+        name: this.formData.signupName,
+        username: this.formData.signupUsername,
+        password: this.formData.signupPassword
+      }
+
+      if (!user.name.trim() || !user.username.trim() || !user.password.trim()) {
+        this.processing = null;
+        this.error = 'Please provide valid credentials';
+        return;
+      }
+
+      this.authService.authSignup(user).subscribe({
+        next: (response) => {
+          this.processing = null;
+          Cookies.set(
+            this.auth.cookieData.login.name,
+            response.token,
+            { expires: this.auth.cookieData.login.expiration }
+          );
+          this.auth.user = response.user;
+          this.closeDialog();
+        },
+        error: (error) => {
+          this.processing = null;
+          this.error = error?.error?.message ?? error?.message ?? 'An error occurred';
+        }
+      });
     },
     login: () => {
-      console.log('login', this.formData);
       this.processing = 'Logging in'
       this.error = null;
       const user = {
         username: this.formData.loginUsername,
         password: this.formData.loginPassword
       }
-      
+
       if (!user.username.trim() || !user.password.trim()) {
         this.processing = null;
-        this.error = 'Please provide a valid username and password';
+        this.error = 'Please provide valid credentials';
         return;
       }
 
-      this.authService.authSignin(user).subscribe(
-        (response) => {
-          console.log(response);
+      this.authService.authSignin(user).subscribe({
+        next: (response) => {
           this.processing = null;
+          Cookies.set(
+            this.auth.cookieData.login.name,
+            response.token,
+            { expires: this.auth.cookieData.login.expiration }
+          );
+          this.auth.user = response.user;
+          this.closeDialog();
         },
-        (error) => {
+        error: (error) => {
+          console.log(error);
           this.processing = null;
-          this.error = error?.message ?? error?.error?.message ?? 'An error occurred';
+          this.error = error?.error?.message ?? error?.message ?? 'An error occurred';
         }
-      );
+      });
     },
   }
 
   constructor(
     public dialogRef: MatDialogRef<AuthDialogComponent>,
-    private authService: AuthEndpointsService
+    private authService: AuthEndpointsService,
+    private auth: AuthService,
   ) { }
 
   closeDialog(): void {

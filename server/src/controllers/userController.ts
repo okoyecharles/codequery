@@ -7,9 +7,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const secret = process.env.JWT_SECRET!;
-const tokenExpiration = process.env.NODE_ENV === 'development' ? '1d' : '7d';
-const tokenName = process.env.SESSION_TOKEN_NAME!;
+const environment = process.env as any;
+const secret = environment.JWT_SECRET!;
+const tokenExpiration = environment.NODE_ENV === 'development' ? '1d' : '7d';
+const tokenName = environment.SESSION_TOKEN_NAME!;
 const cookieOptions: CookieOptions = {
   httpOnly: true,
   sameSite: 'none',
@@ -144,7 +145,7 @@ export const login = async (
   * @desc    Logout a user
   * @access  Public
   */
-export const logout = async (req: Request, res: Response) => {
+export const logout = async (_req: Request, res: Response) => {
   res.clearCookie(
     tokenName,
     cookieOptions
@@ -156,24 +157,15 @@ export const logout = async (req: Request, res: Response) => {
   * @desc    Validate a user
   * @access  Public
 */
-export const validateUser = async (req: Request, res: Response) => {
-  const token = req.cookies[tokenName];
-
-  if (!token) {
-    res.status(401).json({ message: 'Unauthorized' });
-    return;
-  }
-
-  const decoded = jwt.verify(token, process.env.JWT_SECRET!) as TokenUser;
-
-  const user = await User.findById(decoded.id);
+export const validateUser = async (req: AuthorizedRequest<any>, res: Response) => {
+  const user = await User.findById(req.user);
   if (!user) {
-    res.status(401).json({ message: 'User does not exist' });
+    res.status(401).json({ message: 'Unauthorized, User does not exist' });
     return;
   }
 
   res.status(200).json({
-    user, token
+    user
   });
 };
 
