@@ -7,8 +7,8 @@
   },
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "build": "rimraf dist && tsc",
     "ts.check": "tsc --project tsconfig.json",
+    "build": "rimraf dist && tsc",
     "add-build": "git add dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
