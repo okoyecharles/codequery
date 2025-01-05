@@ -24,7 +24,7 @@ app.use('/api/questions', questionRouter);
 
 connectDB().then(() => {
   app.get('/', (req: Request, res: Response) => {
-    res.send('Express + TypeScript + MongoDB Server Template');
+    res.send('Hello World from CodeQuery!');
   });
   
   app.listen(port, () => {
