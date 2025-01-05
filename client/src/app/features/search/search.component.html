@@ -15,8 +15,7 @@
     !searchResults.length) {
     <div class="text-center text-gray-500 text-sm">No queries found</div>
     } @if (searching$.getValue()) {
-    <div class="text-center text-gray-500 text-sm">
-      Searching...
+    <div class="text-center text-gray-500 text-sm grid place-content-center mb-4">
       <mat-spinner diameter="24" strokeWidth="3"></mat-spinner>
     </div>
     } @for (query of searchResults; track query) {

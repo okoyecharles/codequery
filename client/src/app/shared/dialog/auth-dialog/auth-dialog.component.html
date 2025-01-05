@@ -1,0 +1,123 @@
+<div class="p-4 flex flex-col gap-2">
+  <img src="/logo.svg" alt="" height="32" class="h-6 mx-auto" />
+
+  <h2 class="font-bold text-gray-500 text-center mt-2">
+    @if (loginMode) { Log In } @else { Sign Up }
+  </h2>
+
+  @if (error) {
+    <p class="text-sm text-center text-red-400 font-semibold">
+      {{ error }}
+    </p>
+  }
+
+  @if (loginMode) {
+  <form action="" class="flex flex-col gap-3" (submit)="preventDefault($event)">
+    <div class="flex flex-col gap-1">
+      <label for="login-username" class="text-xs">Username</label>
+      <input
+        type="text"
+        placeholder="Enter Username"
+        class="py-2 px-3 text-sm ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700"
+        name="login-username"
+        [value]="formData.loginUsername"
+        (input)="handleInput($event, 'loginUsername')"
+      />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="login-password" class="text-xs">Password</label>
+      <input
+        type="password"
+        placeholder="Enter Password"
+        class="py-2 px-3 text-sm ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700"
+        name="login-password"
+        [value]="formData.loginPassword"
+        [type]="'password'"
+        (input)="handleInput($event, 'loginPassword')"
+      />
+    </div>
+
+    <button
+      class="bg-blue-500 text-white text-sm py-2 px-3 hover:bg-blue-600 w-full disabled:bg-gray-300 disabled:text-black"
+      (click)="formActions.login()"
+      [disabled]="!!processing"
+    >
+      @if (processing) {
+        <div class="flex gap-2 items-center justify-center">
+          <mat-spinner diameter="18" strokeWidth="3" class="text-white"></mat-spinner> {{ processing }}
+        </div>
+      } @else {
+        Login
+      }
+    </button>
+
+    <p class="text-xs">
+      Don't have an account?
+      <button class="underline text-blue-500" (click)="toggleMode()">
+        Create One
+      </button>
+    </p>
+  </form>
+  } @else {
+  <form action="" class="flex flex-col gap-3" (submit)="preventDefault($event)">
+    <div class="flex flex-col gap-1">
+      <label for="signup-name" class="text-xs">Name</label>
+      <input
+        type="text"
+        placeholder="Enter Full Name"
+        class="py-2 px-3 text-sm ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700"
+        name="signup-name"
+        [value]="formData.signupName"
+        (input)="handleInput($event, 'signupName')"
+      />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="signup-username" class="text-xs">Username</label>
+      <input
+        type="text"
+        placeholder="Enter Username"
+        class="py-2 px-3 text-sm ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700"
+        name="signup-username"
+        [value]="formData.signupUsername"
+        (input)="handleInput($event, 'signupUsername')"
+      />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label for="signup-password" class="text-xs">Password</label>
+      <input
+        type="password"
+        placeholder="Enter Password"
+        class="py-2 px-3 text-sm ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700"
+        name="signup-password"
+        [value]="formData.signupPassword"
+        [type]="'password'"
+        (input)="handleInput($event, 'signupPassword')"
+      />
+    </div>
+
+    <button
+      class="bg-blue-500 text-white text-sm py-2 px-3 hover:bg-blue-600 w-full disabled:bg-gray-300 disabled:text-black"
+      (click)="formActions.signup()"
+      [disabled]="!!processing"
+    >
+      @if (processing) {
+        <div class="flex gap-2 items-center justify-center">
+          <mat-spinner diameter="18" strokeWidth="3" class="text-white"></mat-spinner> {{ processing }}
+        </div>
+      } @else {
+        Signup
+      }
+    </button>
+
+    <p class="text-xs">
+      Already have an account?
+      <button class="underline text-blue-500" (click)="toggleMode()">
+        Log In
+      </button>
+    </p>
+  </form>
+  }
+</div>
