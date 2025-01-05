@@ -88,9 +88,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             username,
             password: hashedPassword,
         });
-        console.log(newUser._id.toString());
         const token = generateToken(newUser._id.toString());
-        console.log(token);
         res.status(200)
             .cookie(tokenName, token, cookieOptions)
             .json({ user: newUser, token });
@@ -201,8 +199,6 @@ exports.updateUser = updateUser;
  */
 const generateToken = (id) => {
     const user = { id };
-    console.log('token generated for ', user);
-    console.log({ user, secret, tokenExpiration });
     const token = jsonwebtoken_1.default.sign(user, secret, {
         expiresIn: tokenExpiration,
     });

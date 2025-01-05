@@ -8,6 +8,7 @@ import { queryResolver } from './features/query/query.resolver';
 
 export const routes: Routes = [
   {
+    title: 'CodeQuery',
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',

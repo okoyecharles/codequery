@@ -88,7 +88,6 @@ export class AuthDialogComponent implements OnDestroy {
           this.closeDialog();
         },
         error: (error) => {
-          console.log(error);
           this.processing = null;
           this.error = error?.error?.message ?? error?.message ?? 'An error occurred';
         }

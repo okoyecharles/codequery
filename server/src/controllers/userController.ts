@@ -87,9 +87,7 @@ export const register = async (
       password: hashedPassword,
     });
 
-    console.log(newUser._id.toString());
     const token = generateToken(newUser._id.toString());
-    console.log(token);
 
     res.status(200)
       .cookie(tokenName, token, cookieOptions)
@@ -218,8 +216,6 @@ export const updateUser = async (
  */
 const generateToken = (id: string) => {
   const user: TokenUser = { id };
-  console.log('token generated for ', user);
-  console.log({ user, secret, tokenExpiration });
   const token = jwt.sign(user, secret, {
     expiresIn: tokenExpiration,
   });
