@@ -1,4 +1,3 @@
-import { answerQuestion } from './../../../../../server/src/controllers/answerController';
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QueryDetailed } from '../../api/api.types';

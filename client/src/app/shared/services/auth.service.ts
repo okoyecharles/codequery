@@ -1,4 +1,3 @@
-import { validateUser } from './../../../../../server/src/controllers/userController';
 import { Injectable } from '@angular/core';
 import { User } from '../../api/api.types';
 import { AuthEndpointsService } from '../../api/auth-endpoints.service';
