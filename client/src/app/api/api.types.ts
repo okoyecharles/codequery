@@ -21,6 +21,7 @@ export type Query = {
   question: string,
   user: User,
   answers: Array<string>,
+  intelligentAnswer?: string,
   createdAt: string,
   updatedAt: string,
   __v: number
@@ -31,6 +32,7 @@ export type QueryDetailed = {
   question: string,
   user: User,
   answers: Array<Answer>,
+  intelligentAnswer?: string,
   createdAt: string,
   updatedAt: string,
   __v: number

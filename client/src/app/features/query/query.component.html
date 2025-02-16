@@ -19,16 +19,61 @@
   </div>
 </div>
 
+<div
+  class="py-3 px-3 ring-2 ring-blue-500/50 mb-4 bg-gradient-to-r from-purple-50 via-green-50 to-blue-50 rounded flex flex-col gap-2"
+>
+  <h2
+    class="font-sans font-semibold text-blue-600 text-center md:text-left flex justify-center md:justify-start items-center gap-2 flex-wrap"
+  >
+    Intelligent Answers
+    <span
+      class="text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text"
+      >(Provided by Gemini AI)</span
+    >
+    <button
+      class="bg-blue-600 flex justify-center gap-2 items-center text-gray-200 text-sm py-1 px-2 rounded hover:bg-blue-700 w-full md:w-fit disabled:bg-gray-300 disabled:text-gray-500 ml-auto h-[32px]"
+      (click)="generateIntelligentAnswer()"
+      [disabled]="intelligentAnswerProcessing"
+    >
+      @if (intelligentAnswerProcessing) {
+      <mat-spinner diameter="16" class="!text-white"></mat-spinner>
+      } @else { @if (query.intelligentAnswer) {
+      <mat-icon class="scale-75">refresh</mat-icon> } @else {
+      <mat-icon class="scale-75">bolt</mat-icon> } } @if
+      (!query.intelligentAnswer) { Generate }
+    </button>
+  </h2>
+  <div class="flex items-center justify-between gap-3 mt-3 md:mt-0 max-w-[calc(100vw-68px)] overflow-x-scroll">
+    <p
+      class="text-sm text-center md:text-left text-gray-600"
+      [innerHTML]="
+        query.intelligentAnswer ||
+        'Get AI-generated answers to your question. Our AI model is trained on
+      thousands of questions and answers to provide you with the best possible
+      answers.'
+      "
+    ></p>
+  </div>
+</div>
+
 <h1
   class="font-semibold text-base text-gray-700 border-b border-gray-300 py-1 mb-4"
 >
   Answers ({{ query.answers.length }})
 </h1>
 
-<form action="" class="flex gap-2 bg-gray-50 pb-2 sticky top-[84px]" (submit)="answerQuestion($event)">
+<form
+  action=""
+  class="flex gap-2 bg-gray-50 pb-2 sticky top-[84px]"
+  (submit)="answerQuestion($event)"
+>
   <div class="relative w-full">
     <textarea
-      [placeholder]="query.answers.length ? 'Add another answer...' : 'Be the first to answer...'"
+      [placeholder]="
+        query.answers.length
+          ? 'Add another answer...'
+          : 'Be the first to answer...'
+      "
       class="px-3 py-2 text-sm ring-1 ring-gray-300 focus:ring-gray-500 outline-none w-full text-gray-700 resize-none"
       rows="4"
       [value]="queryAnswer$.getValue()"
@@ -45,7 +90,11 @@
   <button
     class="bg-blue-500 text-gray-200 grid place-content-center place-items-center text-sm hover:bg-blue-600 w-[40px] disabled:bg-gray-300"
     [type]="'submit'"
-    [disabled]="processing || queryAnswer$.getValue().length > MAX_ANSWER_LENGTH || queryAnswer$.getValue().trim().length < 5"
+    [disabled]="
+      processing ||
+      queryAnswer$.getValue().length > MAX_ANSWER_LENGTH ||
+      queryAnswer$.getValue().trim().length < 5
+    "
   >
     @if (processing) {
     <mat-spinner diameter="16"></mat-spinner>

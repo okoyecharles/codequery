@@ -5,6 +5,7 @@ import { BehaviorSubject, debounceTime, finalize, Subject, takeUntil } from 'rxj
 import { Query } from '../../api/api.types';
 import { QueryEndpointsService } from '../../api/query-endpoints.service';
 import { QueryCardComponent } from '../../shared/components/query-card/query-card.component';
+import { QueriesService } from '../../shared/services/queries.service';
 
 @Component({
   selector: 'app-search',
@@ -18,10 +19,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   searching$ = new BehaviorSubject<boolean>(false);
   searchedQuery$ = new BehaviorSubject<string>('');
-  searchResults: Array<Query> = [];
 
   constructor(
     private queryService: QueryEndpointsService,
+    public queries: QueriesService,
   ) { }
 
   ngOnInit(): void {
@@ -45,16 +46,16 @@ export class SearchComponent implements OnInit, OnDestroy {
 
         ).subscribe({
           next: (data: any) => {
-            this.searchResults = data.questions;
+            this.queries.searchQueries = data.questions;
           },
           error: (error) => {
             console.error(error);
-            this.searchResults = [];
+            this.queries.searchQueries = [];
 
           }
         });
       } else {
-        this.searchResults = [];
+        this.queries.searchQueries = [];
         this.searching$.next(false);
       }
     })

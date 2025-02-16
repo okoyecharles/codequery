@@ -18,6 +18,7 @@ router.put('/:id', authMiddleware_1.protect, questionController_1.updateQuestion
 // Answer routes
 router.get('/:id/answers', answerController_1.getAnswers);
 router.post('/:id/answers', authMiddleware_1.optionalProtect, answerController_1.answerQuestion);
+router.put('/:id/answers/intelligent', authMiddleware_1.protect, answerController_1.getAIAnswer);
 router.delete('/:id/answers/:answerId', authMiddleware_1.protect, answerController_1.deleteAnswer);
 router.put('/:id/answers/:answerId', authMiddleware_1.protect, answerController_1.updateAnswer);
 exports.default = router;

@@ -12,7 +12,7 @@ import moment from 'moment';
 @Component({
   selector: 'app-query',
   standalone: true,
-  imports: [DatePipe, MatIconModule, AnswerCardComponent, CommonModule, MatProgressSpinnerModule],
+  imports: [DatePipe, MatIconModule, AnswerCardComponent, CommonModule, MatProgressSpinnerModule, MatIconModule],
   templateUrl: './query.component.html',
   styleUrl: './query.component.scss'
 })
@@ -22,6 +22,7 @@ export class QueryComponent implements OnDestroy {
   MAX_ANSWER_LENGTH = 250;
   queryAnswer$ = new BehaviorSubject<string>("");
   processing = false;
+  intelligentAnswerProcessing = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,6 +33,22 @@ export class QueryComponent implements OnDestroy {
     this.activatedRoute.data.subscribe(({ data }) => {
       this.query = data.question;
     });
+  }
+
+  generateIntelligentAnswer() {
+    this.intelligentAnswerProcessing = true;
+    this.answerService.answerGetAIAnswer(this.query._id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data: any) => {
+          this.query = data.question;
+          this.intelligentAnswerProcessing = false;
+        },
+        error: (error) => {
+          console.error(error);
+          this.intelligentAnswerProcessing = false;
+        }
+      })
   }
 
   handleInput(event: any) {

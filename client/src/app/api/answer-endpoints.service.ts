@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { generateAuthHeaders, getAPIRoute } from './api.config';
+import { QueryDetailed } from './api.types';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,12 @@ export class AnswerEndpointsService {
 
   answerCreateAnswer(queryId: string, answer: any) {
     return this.http.post(getAPIRoute(`questions/${queryId}/answers`), answer, {
+      headers: generateAuthHeaders(),
+    });
+  }
+
+  answerGetAIAnswer(queryId: string) {
+    return this.http.put<{ question: QueryDetailed }>(getAPIRoute(`questions/${queryId}/answers/intelligent`), {}, {
       headers: generateAuthHeaders(),
     });
   }

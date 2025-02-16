@@ -12,13 +12,13 @@
 
   <div class="max-w-[1000px] mx-auto w-full">
     @if (searchedQuery$.getValue() && !searching$.getValue() &&
-    !searchResults.length) {
+    !queries.searchQueries.length) {
     <div class="text-center text-gray-500 text-sm">No queries found</div>
     } @if (searching$.getValue()) {
     <div class="text-center text-gray-500 text-sm grid place-content-center mb-4">
       <mat-spinner diameter="24" strokeWidth="3"></mat-spinner>
     </div>
-    } @for (query of searchResults; track query) {
+    } @for (query of queries.searchQueries; track query) {
     <app-query-card [query]="query"></app-query-card>
     <div class="mb-4"></div>
     }

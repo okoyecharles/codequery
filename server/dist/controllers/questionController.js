@@ -98,6 +98,7 @@ const askQuestion = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(201).json({ message: 'Question created successfully', question: savedQuestion });
     }
     catch (error) {
+        console.log(error);
         res
             .status(500)
             .json({ message: 'Something went wrong... Please try again' });

@@ -5,13 +5,13 @@
     class="bg-black text-gray-200 flex items-center gap-3 text-sm py-2 px-3 ml-6 hover:bg-gray-700"
     (click)="openAskQueryDialog()"
   >
-    <mat-icon class="text-blue-400 scale-90">question_answer</mat-icon>
-    <span>Ask Question</span>
+    <mat-icon class="text-blue-400 scale-75">question_answer</mat-icon>
+    <span class="text-xs">Ask Question</span>
   </button>
   }
 </header>
 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-  @for (query of queries; track query) {
+  @for (query of queries.homeQueries; track query) {
   <app-query-card [query]="query"></app-query-card>
   }
 </div>

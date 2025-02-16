@@ -3,7 +3,8 @@ import Cookies from "js-cookie";
 
 export const tokenName = 'codequery_session';
 
-export const API_URL = 'https://codequery-api.vercel.app/api';
+// export const API_URL = 'https://codequery-api.vercel.app/api';
+export const API_URL = 'http://localhost:4100/api';
 
 export const getAPIRoute = (route: string) => `${API_URL}/${route}`;
 

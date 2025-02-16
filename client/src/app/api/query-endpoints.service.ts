@@ -33,7 +33,7 @@ export class QueryEndpointsService {
   }
 
   queryUpdateQuery(queryId: string, query: any) {
-    return this.http.put(getAPIRoute(`questions/${queryId}`), query, {
+    return this.http.put<{ question: QueryDetailed }>(getAPIRoute(`questions/${queryId}`), query, {
       headers: generateAuthHeaders(),
     });
   }

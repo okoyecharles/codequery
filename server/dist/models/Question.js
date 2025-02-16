@@ -21,6 +21,11 @@ const QuestionSchema = new Schema({
             ref: "Answer",
         },
     ],
+    intelligentAnswer: {
+        type: String,
+        required: false,
+        default: "",
+    }
 }, {
     timestamps: true
 });
