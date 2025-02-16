@@ -8,6 +8,7 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AnswerEndpointsService } from '../../api/answer-endpoints.service';
 import moment from 'moment';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-query',
@@ -27,6 +28,7 @@ export class QueryComponent implements OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private answerService: AnswerEndpointsService,
+    public auth: AuthService,
   ) {}
 
   ngOnInit(): void {
